@@ -1,5 +1,5 @@
 <h3>
-JAS-39 Gripen built using Bovine74's Custom Aircraft Template (CAT) and updated to the new Steam modloader by me.
+JAS-39 Gripen built using Bovine74's Custom Aircraft Template (CAT) and updated to the new Steam modloader by me. Assetbundle and models are not included on here, this is just for building the mod DLL. Want to make a mod yourself? Join the VTOL VR Modding Discord server.
 </h3>
 
 <br>
