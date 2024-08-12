@@ -1,20 +1,16 @@
 <h3>
-You might know Saab for their cars, but have you ever heard of their jets? The Saab JAS-39 series of light fighter jets were built for versatility and can perform a wide range of tasks such as reconnaissance, air-to-ground and air-to-air. 
+JAS-39 Gripen built using Bovine74's Custom Aircraft Template (CAT) and updated to the new Steam modloader by me.
 </h3>
 
 <br>
-***NOW WORKS WITH VTOL VR v1.9.5+!***
 
 <img src="https://i.imgur.com/h0yoFRU.png" alt="Three pictures of plane" width="100%"/>
-*Is it a bird? Is it a plane? Yes it is.*
 
 **Multiplayer** compatibility is **not yet confirmed** but might work, please tell me if you try!
 
 The model isn't made by me, but heavily edited and "fixed" in some areas. Interior buttons and MFDs are taken from BCAT.
 
 Includes a custom Litening TGP and External fuel tank (3500L).
-
-Not entirely bug-free.
 
 <img src="https://i.imgur.com/4n7bqR4.png" alt="Three pictures of cockpit" width="100%"/>
 *New cockpit model with improved colors, custom throttle, and interchangeable flags*
