@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -202,28 +203,52 @@ namespace CustomAircraftTemplateJAS39
 
         public static void VehicleAdd()
         {
-            // Debug.Log("VA1.0");
+            Debug.Log("VehicleAdd started");
+
+            // Get the type of VTResources
+            Type vtResourcesType = typeof(VTResources);
+            Debug.Log("VTResources type obtained");
 
             // Call private static method FinallyLoadExtVehicle
-            Traverse.Create("VTResources")
-                    .Method("FinallyLoadExtVehicle", Main.pathToBundle, AircraftInfo.AircraftPrefabName)
-                    .GetValue();
+            MethodInfo finallyLoadExtVehicleMethod = vtResourcesType.GetMethod("FinallyLoadExtVehicle", BindingFlags.NonPublic | BindingFlags.Static);
+            if (finallyLoadExtVehicleMethod != null)
+            {
+                Debug.Log("FinallyLoadExtVehicle method found");
+                finallyLoadExtVehicleMethod.Invoke(null, new object[] { Main.pathToBundle, AircraftInfo.AircraftPrefabName });
+                Debug.Log("FinallyLoadExtVehicle method invoked");
+            }
+            else
+            {
+                Debug.LogError("FinallyLoadExtVehicle method not found");
+            }
 
             // Get player vehicle
             pvAircraft = VTResources.GetPlayerVehicle(AircraftInfo.vehicleName);
+            Debug.Log($"Player vehicle obtained: {pvAircraft}");
 
             // Load standalone LOD infos
             VTResources.LoadStandaloneLODInfos(false, false);
+            Debug.Log("Standalone LOD infos loaded");
 
             // Call private static method GenerateStandaloneCustomScenarios
-            var lodCampaign = Traverse.Create("VTResources")
-                                      .Method("GenerateStandaloneCustomScenarios", new object[] { AircraftInfo.vehicleName, true })
-                                      .GetValue<LODCampaignInfo>();
+            MethodInfo generateStandaloneCustomScenariosMethod = vtResourcesType.GetMethod("GenerateStandaloneCustomScenarios", BindingFlags.NonPublic | BindingFlags.Static);
+            if (generateStandaloneCustomScenariosMethod != null)
+            {
+                Debug.Log("GenerateStandaloneCustomScenarios method found");
+                var lodCampaign = (LODCampaignInfo)generateStandaloneCustomScenariosMethod.Invoke(null, new object[] { AircraftInfo.vehicleName, true });
+                Debug.Log("GenerateStandaloneCustomScenarios method invoked");
 
-            // Assign standalone custom scenarios
-            pvAircraft.standaloneCustomScenarios = lodCampaign;
+                // Assign standalone custom scenarios
+                pvAircraft.standaloneCustomScenarios = lodCampaign;
+                Debug.Log("Standalone custom scenarios assigned to player vehicle");
+            }
+            else
+            {
+                Debug.LogError("GenerateStandaloneCustomScenarios method not found");
+            }
+
+            Debug.Log("VehicleAdd completed");
         }
-
 
 
         public static GameObject GetChildWithName(GameObject obj, string name, bool check)
