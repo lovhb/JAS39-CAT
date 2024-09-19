@@ -201,9 +201,36 @@ namespace CustomAircraftTemplateJAS39
         private static MissileLauncher ML;
         private static GameObject mPrefab;
 
+
+
         public static void VehicleAdd()
         {
+            string dllDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string folderPath = Path.Combine(dllDirectory, "scenarios");
+
             Debug.Log("VehicleAdd started");
+
+            // Load custom scenarios from the directory
+            if (Directory.Exists(folderPath))
+            {
+                List<VTScenarioInfo> customScenarios = VTResources.LoadScenariosFromDir(folderPath, false, false, false, true, null);
+                Debug.Log($"Loaded {customScenarios.Count} scenarios from {folderPath}");
+
+                // Report loaded scenarios
+                foreach (var scenario in customScenarios)
+                {
+                    CampaignSelector.ReportLoadedScenarioInfo(scenario);
+                }
+
+                // Convert VTScenarioInfo to LODScenarioInfo and add to the list
+                List<LODScenarioInfo> lodScenarios = customScenarios.Select(cs => new LODScenarioInfo(pvAircraft?.standaloneCustomScenarios, cs.config, cs.filePath)).ToList();
+                VTResources.lodStandaloneCustomScenarios.AddRange(lodScenarios);
+                Debug.Log("Custom scenarios added to the list");
+            }
+            else
+            {
+                Debug.LogError($"Directory not found: {folderPath}");
+            }
 
             // Get the type of VTResources
             Type vtResourcesType = typeof(VTResources);
@@ -222,12 +249,20 @@ namespace CustomAircraftTemplateJAS39
                 Debug.LogError("FinallyLoadExtVehicle method not found");
             }
 
+            // Log the value of AircraftInfo.vehicleName
+            Debug.Log($"AircraftInfo.vehicleName: {AircraftInfo.vehicleName}");
+
             // Get player vehicle
             pvAircraft = VTResources.GetPlayerVehicle(AircraftInfo.vehicleName);
+            if (pvAircraft == null)
+            {
+                Debug.LogError("Player vehicle not found!");
+                return;
+            }
             Debug.Log($"Player vehicle obtained: {pvAircraft}");
 
             // Load standalone LOD infos
-            VTResources.LoadStandaloneLODInfos(false, false);
+            VTResources.LoadStandaloneLODInfos(false, true);
             Debug.Log("Standalone LOD infos loaded");
 
             // Call private static method GenerateStandaloneCustomScenarios
@@ -249,6 +284,10 @@ namespace CustomAircraftTemplateJAS39
 
             Debug.Log("VehicleAdd completed");
         }
+
+
+
+
 
 
         public static GameObject GetChildWithName(GameObject obj, string name, bool check)
