@@ -21,6 +21,8 @@ namespace CustomAircraftTemplateJAS39
     [ItemId("NotPolar.JAS39")]
     public class Main : VtolMod
     {
+        public static string ModFolder { get; set; }
+
         public static Main instance;
 
         //Stores a prefab of the aircraft in order to spawn it in whenever you want
@@ -65,6 +67,7 @@ namespace CustomAircraftTemplateJAS39
         // This method is run once, when the Mod Loader is done initialising this game object
         private void Awake()
         {
+            ModFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             
             //Debug.unityLogger.logEnabled = Main.logging;
             instance = this;
@@ -141,4 +144,4 @@ namespace CustomAircraftTemplateJAS39
 
        
     }
-    }
+}
