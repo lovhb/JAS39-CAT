@@ -9,7 +9,7 @@ using ModLoader;
 using UnityEngine;
 using VTOLAPI;
 
-namespace CustomAircraftTemplateJAS39
+namespace CustomAircraftTemplateJAS39.Patches
 {
     [HarmonyPatch(typeof(VTResources), nameof(VTResources.LoadAllCustomCampaignsLOD))]
     public static class VTResourcesPatches

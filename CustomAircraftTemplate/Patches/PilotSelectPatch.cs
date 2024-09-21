@@ -19,7 +19,7 @@ using Debug = UnityEngine.Debug;
 using Image = UnityEngine.UI.Image;
 using Object = UnityEngine.Object;
 
-namespace CustomAircraftTemplateJAS39
+namespace CustomAircraftTemplateJAS39.Patches
 {
     //You should not need to edit any of this code!
 
